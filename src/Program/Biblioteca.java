@@ -5,14 +5,10 @@ import java.util.*;
 public class Biblioteca {
     private List<Leitor> leitores;
     private List<Livro> livros;
-    private List<Livro> requisitados;
-    private List<Livro> disponiveis;
 
     public Biblioteca() {
         leitores = new ArrayList<Leitor>();
         livros = new ArrayList<Livro>();
-        requisitados = new ArrayList<Livro>();
-        disponiveis = new ArrayList<Livro>();
     }
 
     public void adicionaLivro() {
@@ -41,12 +37,25 @@ public class Biblioteca {
 
     
     public void listaRequisitados() { // listaRequisitados(Data d)
-
+        System.out.println("Os livros requisitados da biblioteca são: ");
+        for (Livro l : livros) {
+            if(l.requisitado()){
+                System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
+            }
+        }
+        System.out.println();
     }
 
     public void listaLivrosDisponiveis() {
-
+        System.out.println("Os livros disponiveis para requisicão são: ");
+        for (Livro l : livros) {
+            if(!l.requisitado()){
+                System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
+            }
+        }
+        System.out.println();
     }
+
 
     //TODO
     //Requisicao requisitaLivro(Leitor l, Data dtReq, Data dtDev){

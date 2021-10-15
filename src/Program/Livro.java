@@ -4,6 +4,7 @@ import java.util.*;
 class Livro {
     private String nome;
     private String autor;
+    private boolean requisitado = false;
 
     public Livro(){
         Scanner sc = new Scanner(System.in);
@@ -26,5 +27,9 @@ class Livro {
 
     public String autor(){
         return autor;
+    }
+
+    public boolean requisitado(){
+        return requisitado;
     }
 }
