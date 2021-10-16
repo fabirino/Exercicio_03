@@ -35,11 +35,10 @@ public class Biblioteca {
         System.out.println();
     }
 
-    
     public void listaRequisitados() { // listaRequisitados(Data d)
         System.out.println("Os livros requisitados da biblioteca são: ");
         for (Livro l : livros) {
-            if(l.requisitado()){
+            if (l.requisitado()) {
                 System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
             }
         }
@@ -49,20 +48,14 @@ public class Biblioteca {
     public void listaLivrosDisponiveis() {
         System.out.println("Os livros disponiveis para requisicão são: ");
         for (Livro l : livros) {
-            if(!l.requisitado()){
+            if (!l.requisitado()) {
                 System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
             }
         }
         System.out.println();
     }
 
-
-    //TODO
-    //Requisicao requisitaLivro(Leitor l, Data dtReq, Data dtDev){
-
-    //}
-    
-    
+    // ---------------------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
         Biblioteca b = new Biblioteca();
 
@@ -71,6 +64,7 @@ public class Biblioteca {
 
         int escolha;
         Scanner sc = new Scanner(System.in);
+
         do {
             System.out.println("1 - Ver lista de livros requesitados num certo dia");
             System.out.println("2 - Ver lista de livros disponiveis");
@@ -83,10 +77,13 @@ public class Biblioteca {
                     break;
 
                 case 2:
-                    b.listaLivros();
+                    b.listaLivrosDisponiveis();
                     break;
                 case 3:
-
+                    Data dataRequisicao = new Data();
+                    dataRequisicao.criaData();
+                    Data dataDevolucao = new Data();
+                    dataDevolucao.calculaDevolucao(dataRequisicao);
                     break;
 
                 case 0:
@@ -95,4 +92,5 @@ public class Biblioteca {
         } while (escolha != 0);
         sc.close();
     }
+
 }
