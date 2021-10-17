@@ -13,6 +13,7 @@ public class Data {
         ano = 0;
     }
 
+
     public void criaData() {
         boolean correto = false;
         Scanner sc = new Scanner(System.in);
@@ -53,7 +54,7 @@ public class Data {
                 }
             }
         }
-        sc.close();
+        //sc.close();
         // System.out.printf("%d/%d/%d", dia , mes, ano);
     }
 
@@ -78,7 +79,18 @@ public class Data {
             dia %= 28;
             mes +=1;
         }
-        System.out.printf("%2d/%2d/%4d", dia , mes, ano);
+        //System.out.printf("%2d/%2d/%4d", dia , mes, ano);
     }
 
+    public int dia(){
+        return dia;
+    }
+
+    public int mes(){
+        return mes;
+    }
+
+    public int ano(){
+        return ano;
+    }
 }
