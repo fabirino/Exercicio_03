@@ -22,4 +22,8 @@ class Leitor {
     public String nome(){
         return nome; 
     }
+
+    public int utente(){
+        return utente;
+    }
 }

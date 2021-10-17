@@ -35,7 +35,7 @@ public class Biblioteca {
 
     public void listaLeitores() {
         for (int i = 0; i < leitores.size(); i++) {
-            System.out.printf("%d - %s\n", i + 1, leitores.get(i).nome());
+            System.out.printf("%d - Nome: %s \n    Número de utente: %s\n", i + 1, leitores.get(i).nome(), leitores.get(i).utente());
         }
     }
 
@@ -119,7 +119,11 @@ public class Biblioteca {
             System.out.println("1 - Ver lista de livros requesitados num certo dia");
             System.out.println("2 - Ver lista de livros disponiveis");
             System.out.println("3 - Requisitar um livro");
+            System.out.println("4 - Adicionar um leitor");
+            System.out.println("5 - Adicionar um livro");
+            System.out.println("6 - Ver lista de leitores");
             System.out.println("0 - Sair");
+
             escolha = sc.nextInt();
             switch (escolha) {
                 case 1:
@@ -147,6 +151,18 @@ public class Biblioteca {
                     System.out.println();
                     b.requisita(b.leitores.get(k - 1), dataRequisicao, dataDevolucao);
                     // requesitaLivro(leitor, dataRequisicao, dataDevolucao)
+                    break;
+                case 4:
+                    b.adicionaLeitor();
+                    break;
+
+                case 5:
+                    b.adicionaLivro();
+                    break;
+                
+                case 6:
+                    System.out.println();
+                    b.listaLeitores();
                     break;
 
                 case 0:
