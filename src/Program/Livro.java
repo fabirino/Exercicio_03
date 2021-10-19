@@ -5,8 +5,6 @@ class Livro {
     private String nome;
     private String autor;
     private boolean requisitado;
-    private Data dtReq;
-    private Data dtDev;
 
 
     public Livro(){
@@ -17,8 +15,6 @@ class Livro {
         System.out.println("Nome do autor: ");
         autor = sc.nextLine();
         sc.close();
-        dtDev = new Data();
-        dtReq = new Data();
 
     }
 
@@ -26,14 +22,10 @@ class Livro {
         requisitado = false;
         nome = new String(nome_livro);
         autor = new String(nome_autor);
-        dtDev = new Data();
-        dtReq = new Data();
     }
 
-    public void adicionaDatas(Data dR, Data dD){
+    public void requisita(){
         requisitado = true;
-        dtReq = dR;
-        dtDev = dD;
     }
 
     public String nome(){
@@ -48,7 +40,4 @@ class Livro {
         return requisitado;
     }
 
-    public Data dataRequisicao(){
-        return dtReq;
-    }
 }

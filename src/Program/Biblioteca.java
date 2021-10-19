@@ -5,12 +5,15 @@ import java.util.*;
 public class Biblioteca {
     private List<Leitor> leitores;
     private List<Livro> livros;
+    private List<Requisicao> requisicoes;
 
     public Biblioteca() {
         leitores = new ArrayList<Leitor>();
         livros = new ArrayList<Livro>();
+        requisicoes = new ArrayList<Requisicao>();
     }
 
+    // funcoes para criar uma base de dados para a biblioteca
     public void adicionaLivro() {
         livros.add(new Livro());
     }
@@ -35,7 +38,8 @@ public class Biblioteca {
 
     public void listaLeitores() {
         for (int i = 0; i < leitores.size(); i++) {
-            System.out.printf("%d - Nome: %s \n    Número de utente: %s\n", i + 1, leitores.get(i).nome(), leitores.get(i).utente());
+            System.out.printf("%d - Nome: %s \n    Número de utente: %s\n", i + 1, leitores.get(i).nome(),
+                    leitores.get(i).utente());
         }
     }
 
@@ -46,24 +50,23 @@ public class Biblioteca {
         }
     }
 
-    public void listaRequisitados(Data d) { //nao esta a dar certo
+    public void listaRequisitados(Data d) {
         boolean existe = false;
-        for (Livro l : livros) {
-            if (d.dia() == l.dataRequisicao().dia() && d.mes() == l.dataRequisicao().mes() && d.ano() == l.dataRequisicao().ano()) {
+        for (Requisicao r : requisicoes) {
+            if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes() && r.dataRequisicao.ano() == d.ano()) {
                 existe = true;
-                System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
-
             }
         }
+
         if (existe) {
             System.out.println("O(s) livro(s) requisitado(s) nesta data são: ");
-            for (Livro l : livros) {
-                if (d.dia() == l.dataRequisicao().dia() && d.mes() == l.dataRequisicao().mes() && d.ano() == l.dataRequisicao().ano()) {
-                    System.out.println("-> \"" + l.nome() + "\" de " + l.autor());
+            for (Requisicao r : requisicoes) {
+                if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes() && r.dataRequisicao.ano() == d.ano()) {
+                    r.printDados();
                 }
             }
         } else {
-            System.out.println("Não foram encontrado livros requisitados nesse dia!");
+            System.out.println("Não foram encontrados livros requisitados nesta data!");
         }
         System.out.println();
     }
@@ -78,28 +81,31 @@ public class Biblioteca {
         System.out.println();
     }
 
-    void requisita(Leitor leitor, Data dtReq, Data dtDev) {
+    public Requisicao requisitaLivro(Leitor leitor, Data dtReq, Data dtDev) {
+        Requisicao r = new Requisicao(leitor, dtReq, dtDev);
         Scanner sc = new Scanner(System.in);
-        System.out.println("Indique o número do livro que vai ser requisitado");
-        for (int i = 0; i < livros.size(); i++) {
-            if (!livros.get(i).requisitado()) {
-                System.out.printf("%d - %s\n", i + 1, livros.get(i).nome());
+        if (requisicoes.size() == livros.size()) {
+            System.out.println("Todos os livros foram requisitados");
+            return null;
+        } else {
+            System.out.println("Indique o número do livro que vai ser requisitado");
+            for (int i = 0; i < livros.size(); i++) {
+                if (!livros.get(i).requisitado()) {
+                    System.out.printf("%d - \"%s\"  de %s\n", i + 1, livros.get(i).nome(), livros.get(i).autor());
+                }
             }
-        }
-
-        int livro = 0;
-        while (livro > livros.size() || livro < 1) {
-            livro = sc.nextInt();
-            if (livro > livros.size() || livro < 1) {
-                System.out.println("O livro que escolheu nao existe!");
+            int livro = 0;
+            while (livro > livros.size() || livro < 1) {
+                livro = sc.nextInt();
+                if (livro > livros.size() || livro < 1) {
+                    System.out.println("O livro que escolheu nao existe!");
+                }
             }
+            r.adicionaLivro(livros.get(livro - 1));
+            requisicoes.add(r);
         }
-
-        // System.out.println(livros.get(livro-1).nome());
-
-        livros.get(livro - 1).adicionaDatas(dtReq, dtDev);
-
         // sc.close();
+        return r;
     }
 
     // ---------------------------------------------------------------------------------------------------------------
@@ -149,17 +155,19 @@ public class Biblioteca {
 
                     int k = sc.nextInt();
                     System.out.println();
-                    b.requisita(b.leitores.get(k - 1), dataRequisicao, dataDevolucao);
-                    // requesitaLivro(leitor, dataRequisicao, dataDevolucao)
+                    b.requisitaLivro(b.leitores.get(k - 1), dataRequisicao, dataDevolucao);
                     break;
                 case 4:
                     b.adicionaLeitor();
+                    for(Requisicao r: b.requisicoes){
+                        r.printDados();
+                    }
                     break;
 
                 case 5:
                     b.adicionaLivro();
                     break;
-                
+
                 case 6:
                     System.out.println();
                     b.listaLeitores();
