@@ -27,12 +27,12 @@ public class Requisicao {
     }
 
     public void printDados(){
+        System.out.println();
         System.out.println("Nome do livro: " + livro.nome() + " de " + livro.autor());
         System.out.println("Leitor: " + leitor.nome());
         System.out.println("Número de utente: " + leitor.utente());
         System.out.println("Data de requisição: "+ dataRequisicao.dia() + "/"+ dataRequisicao.mes() + "/" + dataRequisicao.ano());
         System.out.println("Data de devolução: " + dataDevolucao.dia() + "/" + dataDevolucao.mes() + "/" + dataDevolucao.ano());
-        System.out.println();
 
     }
 

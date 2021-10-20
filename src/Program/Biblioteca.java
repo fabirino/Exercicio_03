@@ -53,7 +53,8 @@ public class Biblioteca {
     public void listaRequisitados(Data d) {
         boolean existe = false;
         for (Requisicao r : requisicoes) {
-            if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes() && r.dataRequisicao.ano() == d.ano()) {
+            if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes()
+                    && r.dataRequisicao.ano() == d.ano()) {
                 existe = true;
             }
         }
@@ -61,7 +62,8 @@ public class Biblioteca {
         if (existe) {
             System.out.println("O(s) livro(s) requisitado(s) nesta data são: ");
             for (Requisicao r : requisicoes) {
-                if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes() && r.dataRequisicao.ano() == d.ano()) {
+                if (r.dataRequisicao.dia() == d.dia() && r.dataRequisicao.mes() == d.mes()
+                        && r.dataRequisicao.ano() == d.ano()) {
                     r.printDados();
                 }
             }
@@ -69,6 +71,23 @@ public class Biblioteca {
             System.out.println("Não foram encontrados livros requisitados nesta data!");
         }
         System.out.println();
+    }
+
+    public void listaRequisicoes() {
+        boolean existe = false;
+        for (Livro l : livros) {
+            if (l.requisitado()) {
+                existe = true;
+            }
+        }
+        if (existe) {
+            for (Requisicao r : requisicoes) {
+                r.printDados();
+            }
+        } else {
+            System.out.println("Não foram encontrados registos de requisições.");
+        }
+
     }
 
     public void listaLivrosDisponiveis() {
@@ -108,12 +127,46 @@ public class Biblioteca {
         return r;
     }
 
+    public void entrega() {
+        boolean existe = false;
+        for (Livro l : livros) {
+            if (l.requisitado()) {
+                existe = true;
+            }
+        }
+        if (existe) {
+            System.out.println("\n Indique o numero do livro que vai ser devolvido: ");
+            for(int i = 0; i<livros.size(); i++){
+                if(livros.get(i).requisitado()){
+                    System.out.println(i+1 + " - " + livros.get(i).nome());
+                }
+            }
+            Scanner sc3 = new Scanner(System.in);
+            int j = sc3.nextInt();
+            if(j<0 || j>livros.size()){
+                System.out.println("Não há registos desse livro na base de dados da biblioteca!");
+                return;
+            }else{
+                if(!livros.get(j-1).requisitado()){
+                    System.out.println("O livro que corresponde ao indice selecionado não está requisitado");
+                    return;
+                }else{
+                    livros.get(j-1).devolve();
+                System.out.println("O livro \"" + livros.get(j-1).nome()+ "\" foi devolvido.");
+            }
+                }
+                
+        }else{
+            System.out.println("Não há livros requisitados neste momento logo não é possivel devolver um livro.");
+        }
+    }
+
     // ---------------------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
         Biblioteca b = new Biblioteca();
 
-        b.adicionaLivro("As longas trancas do careca", "Ze");
-        b.adicionaLivro("Che che princesa", "Mambo");
+        b.adicionaLivro("Introdução à Programação", "Orácio Silva");
+        b.adicionaLivro("C in a Nutshell", "Peter Prinz");
         b.adicionaLeitor("Fabio Santos", 2020212310);
         b.adicionaLeitor("Francisco Almeida", 2019205033);
 
@@ -122,28 +175,23 @@ public class Biblioteca {
 
         do {
             System.out.println();
-            System.out.println("1 - Ver lista de livros requesitados num certo dia");
-            System.out.println("2 - Ver lista de livros disponiveis");
-            System.out.println("3 - Requisitar um livro");
-            System.out.println("4 - Adicionar um leitor");
-            System.out.println("5 - Adicionar um livro");
+            System.out.println("1 - Ver lista de livros disponiveis");
+            System.out.println("2 - Requisitar um livro");
+            System.out.println("3 - Devolver um livro");
+            System.out.println("4 - Ver lista de livros requesitados num certo dia");
+            System.out.println("5 - Mostrar histórico de requisições");
             System.out.println("6 - Ver lista de leitores");
+            System.out.println("7 - Adicionar um leitor");
+            System.out.println("8 - Adicionar um livro");
             System.out.println("0 - Sair");
 
             escolha = sc.nextInt();
             switch (escolha) {
                 case 1:
-                    System.out.println("\nEscolha a data em que pretende ver os livros requisitados:");
-                    Data data = new Data();
-                    data.criaData();
-                    b.listaRequisitados(data);
-                    break;
-
-                case 2:
                     b.listaLivrosDisponiveis();
                     break;
 
-                case 3:
+                case 2:
                     Data dataRequisicao = new Data();
                     System.out.println("\nData de requisicao");
                     dataRequisicao.criaData();
@@ -154,23 +202,41 @@ public class Biblioteca {
                     b.listaLeitores();
 
                     int k = sc.nextInt();
-                    System.out.println();
-                    b.requisitaLivro(b.leitores.get(k - 1), dataRequisicao, dataDevolucao);
-                    break;
-                case 4:
-                    b.adicionaLeitor();
-                    for(Requisicao r: b.requisicoes){
-                        r.printDados();
+                    if (k < 0 || k > b.livros.size()) {
+                        System.out.println("Não há registos desse leitor na base de dados da biblioteca!");
+                    } else {
+                        System.out.println();
+                        b.requisitaLivro(b.leitores.get(k - 1), dataRequisicao, dataDevolucao);
                     }
+
+                    break;
+
+                case 3:
+                    b.entrega();
+                    break;
+
+                case 4:
+                    System.out.println("\nEscolha a data em que pretende ver os livros requisitados.");
+                    Data data = new Data();
+                    data.criaData();
+                    b.listaRequisitados(data);
                     break;
 
                 case 5:
-                    b.adicionaLivro();
+                    b.listaRequisicoes();
                     break;
 
                 case 6:
                     System.out.println();
                     b.listaLeitores();
+                    break;
+
+                case 7:
+                    b.adicionaLeitor();
+                    break;
+
+                case 8:
+                    b.adicionaLivro();
                     break;
 
                 case 0:

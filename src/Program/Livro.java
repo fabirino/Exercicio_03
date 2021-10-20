@@ -14,7 +14,6 @@ class Livro {
         nome = sc.nextLine();
         System.out.println("Nome do autor: ");
         autor = sc.nextLine();
-        sc.close();
 
     }
 
@@ -26,6 +25,10 @@ class Livro {
 
     public void requisita(){
         requisitado = true;
+    }
+
+    public void devolve(){
+        requisitado = false;
     }
 
     public String nome(){
