@@ -1,6 +1,6 @@
 ## Exercício 3 POO
 
-Este repositorio contém o código usado para o 3º exericio de avaliação da cadeira de Programação Orientada a Objetos do 2ºano da Licenciatura de Engenharia Informática da Universidade de Coimbra.
+Este repositorio contém o código usado para o 3º exercício de avaliação da cadeira de Programação Orientada a Objetos do 2ºano da Licenciatura de Engenharia Informática da Universidade de Coimbra.
 
 ## Folder Structure
 
